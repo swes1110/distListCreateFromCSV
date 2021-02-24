@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Security;
 using System.IO;
 using Microsoft.Exchange.WebServices.Data;
 using CsvHelper;
@@ -22,8 +24,9 @@ namespace distListCreateFromCSV
                 System.Console.WriteLine("Last Name: " + contact.lastName);
                 System.Console.WriteLine("E-Mail Address: " + contact.emailAddress);
             }
-
-            // connectExchange();
+            
+            //Connect to exchange server
+            ExchangeService service = connectExchange();
         }
 
         static IEnumerable<contact> readCsv()
@@ -35,21 +38,62 @@ namespace distListCreateFromCSV
             return contacts;
         }
 
-        static void connectExchange()
+        static ExchangeService connectExchange()
         {
             //Get username from user
             System.Console.WriteLine("Please enter the username for a user with administrative permissions to the exchange server: \r\n");
             string username = Console.ReadLine();
             //Get password
-            System.Console.WriteLine("\r\nPlease enter the password for the above user \r\n");
-            string password = Console.ReadLine();
+            SecureString password = GetPasswordFromConsole();
 
             //Create the EWS binding
             ExchangeService service = new ExchangeService();
             //Set credentials
-            service.Credentials = new WebCredentials(username,password);
+            service.Credentials = new NetworkCredential(username, password);
             //Set the service url
             service.Url = new Uri("https://exchange.theabfm.org/EWS/Exchange.asmx");
+            //Return service object
+            return service;
+        }
+
+        private static SecureString GetPasswordFromConsole()
+        {
+            SecureString password = new SecureString();
+            bool readingPassword = true;
+            Console.Write("Enter password: ");
+            while (readingPassword)
+            {
+                ConsoleKeyInfo userInput = Console.ReadKey(true);
+                switch (userInput.Key)
+                {
+                    case (ConsoleKey.Enter):
+                        readingPassword = false;
+                        break;
+                    case (ConsoleKey.Escape):
+                        password.Clear();
+                        readingPassword = false;
+                        break;
+                    case (ConsoleKey.Backspace):
+                        if (password.Length > 0)
+                        {
+                            password.RemoveAt(password.Length - 1);
+                            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                            Console.Write(" ");
+                            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                        }
+                        break;
+                    default:
+                        if (userInput.KeyChar != 0)
+                        {
+                            password.AppendChar(userInput.KeyChar);
+                            Console.Write("*");
+                        }
+                        break;
+                }
+            }
+            Console.WriteLine();
+            password.MakeReadOnly();
+            return password;
         }
     }
 }
