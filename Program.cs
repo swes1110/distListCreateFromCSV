@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Exchange.WebServices.Data;
+using CsvHelper;
 using System.Collections.Generic;
 using distListCreateFromCSV.Models;
+using distListCreateFromCSV.Mappers;
 
 namespace distListCreateFromCSV
 {
@@ -14,7 +16,7 @@ namespace distListCreateFromCSV
             System.Console.WriteLine("Please enter the username for a user with administrative permissions to the exchange server: \r\n");
             string username = Console.ReadLine();
             //Get password
-            System.Console.WriteLine("\r\nPlease enter the password for the above user");
+            System.Console.WriteLine("\r\nPlease enter the password for the above user \r\n");
             string password = Console.ReadLine();
 
             //Create the EWS binding
@@ -26,8 +28,16 @@ namespace distListCreateFromCSV
 
             //Read CSV file into variable
             TextReader reader = new StreamReader("templateFile.csv");
-            CsvHelper.CsvParser parser = new CsvHelper.CsvParser(reader, );
-            var csvReader = new CsvHelper.CsvReader(reader);
+            var csvReader = new CsvReader(reader, System.Globalization.CultureInfo.CurrentCulture);
+            var records = csvReader.GetRecords<contact>();
         }
     }
 }
+
+
+// TextReader reader = new StreamReader("import.txt");
+// var csvReader = new CsvReader(reader);
+// var records = csvReader.GetRecords<Automobile>();
+
+// using (var reader = new StreamReader(path, Encoding.Default))
+//                     using (var csv = new CsvReader(reader))

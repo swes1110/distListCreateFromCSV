@@ -8,10 +8,19 @@
     ".NETCoreApp,Version=v5.0": {
       "distListCreateFromCSV/1.0.0": {
         "dependencies": {
+          "CsvHelper": "24.0.0",
           "EwsManagedApi.dotNetCore": "1.0.0"
         },
         "runtime": {
           "distListCreateFromCSV.dll": {}
+        }
+      },
+      "CsvHelper/24.0.0": {
+        "runtime": {
+          "lib/net5.0/CsvHelper.dll": {
+            "assemblyVersion": "24.0.0.0",
+            "fileVersion": "24.0.0.0"
+          }
         }
       },
       "EwsManagedApi.dotNetCore/1.0.0": {
@@ -162,6 +171,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "CsvHelper/24.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QWgK+BFBuwZMtk+LgtJQ3WkLCrgngoTp7zPJSwBatSGyX+Pk+wlt/0q4vMGmmUwRNAn1QfrKaCclG6jTpm50iA==",
+      "path": "csvhelper/24.0.0",
+      "hashPath": "csvhelper.24.0.0.nupkg.sha512"
     },
     "EwsManagedApi.dotNetCore/1.0.0": {
       "type": "package",
