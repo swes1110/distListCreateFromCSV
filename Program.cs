@@ -33,11 +33,3 @@ namespace distListCreateFromCSV
         }
     }
 }
-
-
-// TextReader reader = new StreamReader("import.txt");
-// var csvReader = new CsvReader(reader);
-// var records = csvReader.GetRecords<Automobile>();
-
-// using (var reader = new StreamReader(path, Encoding.Default))
-//                     using (var csv = new CsvReader(reader))
